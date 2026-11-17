@@ -879,8 +879,8 @@
         note: formData.get('note') || '-'
       };
 
-      // Invio dei dati a Google Sheets in background
-      if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== "https://script.google.com/macros/s/AKfycbxKwzY40J6hJXcGaODEQnGkaCMZajTdCw1XMZnQkWTKi5qMjQApHUmlqBByAt_3UmTt/exec") {
+// Invio dei dati a Google Sheets in background
+      if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== "INSERISCI_QUI_URL_GOOGLE_APPS_SCRIPT") {
         fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',

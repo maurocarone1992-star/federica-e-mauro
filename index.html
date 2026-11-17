@@ -438,21 +438,70 @@
       font-weight: 500;
     }
 
-    .form-status {
-      margin-top: 16px;
-      padding: 14px;
-      border-radius: 10px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.85rem;
-      text-align: center;
-      display: none;
+    /* STILE MODALE / POP-UP DI CONFERMA */
+    #successModal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
     }
 
-    .form-status.success {
-      display: block;
-      background: #e6f3e6;
-      color: #265c26;
-      border: 1px solid #b5d8b5;
+    #successModal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border: 1px solid var(--border-soft);
+      border-radius: 20px;
+      padding: 32px 24px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    #successModal.active .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.8rem;
+      margin: 0 auto 16px;
+    }
+
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--sage-dark);
+      margin: 0 0 10px;
+    }
+
+    .modal-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0 0 24px;
     }
 
     /* Box IBAN */
@@ -512,6 +561,18 @@
     <div class="intro-cta-wrap" id="intro-cta">
       <button type="button" class="open-invite-btn" onclick="playEnvelopeVideo()">
         Tocca per aprire l'invito
+      </button>
+    </div>
+  </div>
+
+  <!-- POP-UP MODALE DI SUCCESSO -->
+  <div id="successModal">
+    <div class="modal-card">
+      <div class="modal-icon">✓</div>
+      <h3 class="modal-title">Conferma Ricevuta!</h3>
+      <p class="modal-text">Grazie mille per aver risposto. La tua presenza è per noi motivo di grande gioia.</p>
+      <button type="button" class="btn-primary" style="width: 100%;" onclick="closeModalAndRedirect()">
+        Procedi
       </button>
     </div>
   </div>
@@ -670,8 +731,6 @@
               Invia Conferma
             </button>
           </div>
-
-          <div id="formStatus" class="form-status"></div>
         </form>
       </div>
     </section>
@@ -687,7 +746,7 @@
         <div class="iban-card">
           <div class="iban-holder">Intestatari: Federica &amp; Mauro</div>
           <!-- SOSTITUISCI QUI IL TUO IBAN REALE -->
-          <div class="iban-code" id="ibanText">IT00 X000 0000 0000 0000 0000 000</div>
+          <div class="iban-code" id="ibanText">IT77N0303211200010001095156</div>
           <button type="button" class="btn-primary" onclick="copyIban()">
             Copia IBAN
           </button>
@@ -776,13 +835,13 @@
     updateCountdown();
 
     /* ==========================================================
-       4. INVIO MODULO RSVP E REINDIRIZZAMENTO SICURO
+       4. INVIO MODULO E GESTIONE POP-UP DI CONFERMA
        ========================================================== */
     const GOOGLE_SCRIPT_URL = "INSERISCI_QUI_URL_GOOGLE_APPS_SCRIPT";
 
     const form = document.getElementById('weddingRsvpForm');
-    const statusBox = document.getElementById('formStatus');
     const submitBtn = document.getElementById('submitBtn');
+    const successModal = document.getElementById('successModal');
 
     // Gestione intelligente checkbox "Nessuna"
     const checkboxes = document.querySelectorAll('input[name="intolleranze"]');
@@ -800,7 +859,6 @@
       e.preventDefault();
       submitBtn.disabled = true;
       submitBtn.textContent = 'Invio in corso...';
-      statusBox.style.display = 'none';
 
       const formData = new FormData(form);
       const selectedIntol = Array.from(document.querySelectorAll('input[name="intolleranze"]:checked'))
@@ -819,7 +877,7 @@
         note: formData.get('note') || '-'
       };
 
-      // Invia i dati in background senza attendere la risposta bloccante del server
+      // Invio dei dati a Google Sheets in background
       if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== "INSERISCI_QUI_URL_GOOGLE_APPS_SCRIPT") {
         fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
@@ -829,19 +887,19 @@
         }).catch(() => {});
       }
 
-      // Mostra conferma visiva e reindirizza subito all'IBAN
-      statusBox.textContent = "Grazie! Conferma registrata con successo. Ti reindirizziamo...";
-      statusBox.classList.add('success');
-      statusBox.style.display = 'block';
+      // Mostra il pop-up di successo
+      successModal.classList.add('active');
 
-      setTimeout(() => {
-        form.reset();
-        statusBox.style.display = 'none';
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Invia Conferma';
-        showPage('regalo');
-      }, 1200);
+      // Ripristina il form
+      form.reset();
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Invia Conferma';
     });
+
+    function closeModalAndRedirect() {
+      successModal.classList.remove('active');
+      showPage('regalo');
+    }
 
     /* ==========================================================
        5. COPIA IBAN CON UN TOCCO

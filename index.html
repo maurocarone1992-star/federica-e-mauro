@@ -52,11 +52,11 @@
 
     .floral-top-left {
       position: absolute;
-      top: 65px; /* Abbassato per non finire coperto dalla barra di navigazione sticky */
-      left: 10px;
-      width: clamp(160px, 35vw, 340px);
+      top: 90px; /* Abbassato ulteriormente per renderlo ben visibile sotto la barra */
+      left: 0px;
+      width: clamp(190px, 40vw, 360px);
       height: auto;
-      opacity: 0.88;
+      opacity: 0.90;
     }
 
     .floral-bottom-right {
@@ -701,6 +701,21 @@
             <input type="text" id="altri_ospiti" name="altri_ospiti" class="form-control" placeholder="Es. Giulia Bianchi, Marco Rossi" />
           </div>
 
+          <!-- NUOVA DOMANDA ALLOGGIO -->
+          <div class="form-group">
+            <label class="form-label">Ti fermi a dormire in zona la notte dopo il matrimonio? Avremmo il piacere di ospitarti*</label>
+            <div class="radio-grid">
+              <label class="radio-option">
+                <input type="radio" name="alloggio" value="Sì, serve supporto alloggio" required />
+                <span>Sì, vorrei fermarmi a dormire nelle vicinanze </span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="alloggio" value="No, in autonomia" />
+                <span>No, mi organizzo in autonomia</span>
+              </label>
+            </div>
+          </div>
+
           <div class="form-group">
             <label class="form-label">Intolleranze alimentari ed altro *</label>
             <div class="radio-grid two-col">
@@ -725,7 +740,7 @@
 
           <div class="form-group">
             <label class="form-label" for="note">Altre segnalazioni o allergie specifiche</label>
-            <textarea id="note" name="note" rows="3" class="form-control" placeholder="Scrivi qui eventuali dettagli (es. seggiolone, allergie gravi, ecc.)"></textarea>
+            <textarea id="note" name="note" rows="3" class="form-control" placeholder="Scrivi qui eventuali dettagli (es. seggiolone per bambini, allergie gravi, ecc.)"></textarea>
           </div>
 
           <div style="text-align: center; margin-top: 24px;">
@@ -742,7 +757,7 @@
       <div class="card-panel">
         <h2 class="script-title">Un pensiero per gli sposi</h2>
         <p class="subtitle-text">
-          Se le vecchie e care «buste» ti sanno di antico o hai paura di perderle il giorno del matrimonio, la tecnologia ci viene in soccorso. Queste sono le coordinate per donazioni spontanee, finanziamenti a fondo perduto e corruzioni varie:
+          Se le vecchie e care «buste» ti sanno di antico o hai paura di perderle il giorno del matrimonio, la tecnologia ci viene in soccorso. Queste sono le coordinate per donazioni spontanee, finanziamenti a fondo perduto e tentativi di corruzione:
         </p>
 
         <div class="iban-card">
@@ -874,6 +889,7 @@
         num_bambini: formData.get('num_bambini') || '0',
         descrizione_bambini: formData.get('descrizione_bambini') || '-',
         altri_ospiti: formData.get('altri_ospiti') || '-',
+        alloggio: formData.get('alloggio'), /* Aggiunto campo alloggio */
         intolleranze: selectedIntol || 'Nessuna',
         note: formData.get('note') || '-'
       };

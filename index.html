@@ -41,7 +41,7 @@
       min-height: 100dvh;
     }
 
-    /* Sfondo floreale fisso su tutte le pagine */
+    /* Sfondo floreale fisso con leggero margine per non essere coperto */
     .floral-bg {
       position: fixed;
       inset: 0;
@@ -52,20 +52,20 @@
 
     .floral-top-left {
       position: absolute;
-      top: -10px;
-      left: -10px;
-      width: clamp(210px, 42vw, 440px);
+      top: 10px;
+      left: 10px;
+      width: clamp(180px, 38vw, 380px);
       height: auto;
-      opacity: 0.92;
+      opacity: 0.88;
     }
 
     .floral-bottom-right {
       position: absolute;
-      bottom: -10px;
-      right: -10px;
-      width: clamp(210px, 42vw, 440px);
+      bottom: 10px;
+      right: 10px;
+      width: clamp(180px, 38vw, 380px);
       height: auto;
-      opacity: 0.92;
+      opacity: 0.88;
     }
 
     /* Overlay video iniziale a tutto schermo */
@@ -203,13 +203,13 @@
       color: #ffffff;
     }
 
-    /* Contenitore principale */
+    /* Contenitore principale con margine superiore ottimizzato */
     main {
       position: relative;
       z-index: 1;
       max-width: 760px;
       margin: 0 auto;
-      padding: 20px 16px 80px;
+      padding: 40px 16px 80px;
     }
 
     .page-section {

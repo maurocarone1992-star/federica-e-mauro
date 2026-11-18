@@ -41,7 +41,7 @@
       min-height: 100dvh;
     }
 
-    /* Sfondo floreale fisso con leggero margine per non essere coperto */
+    /* Sfondo floreale fisso */
     .floral-bg {
       position: fixed;
       inset: 0;
@@ -52,9 +52,9 @@
 
     .floral-top-left {
       position: absolute;
-      top: 10px;
+      top: 65px; /* Abbassato per non finire coperto dalla barra di navigazione sticky */
       left: 10px;
-      width: clamp(180px, 38vw, 380px);
+      width: clamp(160px, 35vw, 340px);
       height: auto;
       opacity: 0.88;
     }
@@ -203,7 +203,7 @@
       color: #ffffff;
     }
 
-    /* Contenitore principale con margine superiore ottimizzato */
+    /* Contenitore principale */
     main {
       position: relative;
       z-index: 1;

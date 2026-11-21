@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#f7f4ef" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>Federica &amp; Mauro — 03.09.2027</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #f7f4ef;
+      --card-white: rgba(255, 255, 255, 0.88);
+      --sage: #7a875a;
+      --sage-dark: #5c6841;
+      --sage-light: #e9ede0;
+      --gold: #b89b67;
+      --text-dark: #3b3a36;
+      --text-muted: #6e6c65;
+      --border-soft: rgba(122, 135, 90, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      overflow-x: hidden;
+      min-height: 100dvh;
+    }
+
+    /* Sfondo floreale fisso ottimizzato anche per Safari/WebKit */
+    .floral-top-left {
+      position: fixed;
+      top: 90px;
+      left: 0;
+      width: clamp(190px, 40vw, 360px);
+      height: auto;
+      opacity: 0.90;
+      pointer-events: none;
+      z-index: 1;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+    }
+
+    .floral-bottom-right {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      width: clamp(180px, 38vw, 380px);
+      height: auto;
+      opacity: 0.88;
+      pointer-events: none;
+      z-index: 1;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+    }
+
+    /* Overlay video iniziale a tutto schermo */
+    #intro-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background-color: #f7f4ef;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.9s ease, visibility 0.9s ease;
+    }
+
+    #intro-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    #envelope-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .intro-cta-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      padding-bottom: max(42px, 10dvh);
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.35) 0%, transparent 45%);
+      transition: opacity 0.4s ease;
+    }
+
+    .intro-cta-wrap.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .open-invite-btn {
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--sage-dark);
+      border: 1px solid var(--gold);
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
+      animation: pulseBtn 2s infinite;
+    }
+
+    .skip-btn {
+      position: absolute;
+      top: max(16px, env(safe-area-inset-top));
+      right: 16px;
+      background: rgba(255, 255, 255, 0.75);
+      border: none;
+      color: var(--text-dark);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 7px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    @keyframes pulseBtn {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+
+    /* Navigazione fissa */
+    header.site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(247, 244, 239, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-soft);
+      padding: 10px 16px;
+    }
+
+    .nav-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: var(--sage-dark);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px 14px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 6px 10px;
+      border-radius: 20px;
+      transition: all 0.25s ease;
+    }
+
+    .nav-links a.active,
+    .nav-links a:hover {
+      background-color: var(--sage);
+      color: #ffffff;
+    }
+
+    /* Contenitore principale */
+    main {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 40px 16px 80px;
+    }
+
+    .page-section {
+      display: none;
+      animation: fadeInPage 0.55s ease forwards;
+    }
+
+    .page-section.active {
+      display: block;
+    }
+
+    @keyframes fadeInPage {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-panel {
+      background: var(--card-white);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid var(--border-soft);
+      border-radius: 18px;
+      padding: clamp(26px, 5vw, 48px) clamp(20px, 5vw, 44px);
+      text-align: center;
+      box-shadow: 0 10px 35px rgba(92, 104, 65, 0.08);
+      margin-top: 18px;
+    }
+
+    .script-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.6rem, 9vw, 4rem);
+      color: var(--sage);
+      font-weight: 400;
+      margin: 0 0 12px;
+      line-height: 1.15;
+    }
+
+    .subtitle-text {
+      font-size: clamp(1.15rem, 3.8vw, 1.38rem);
+      color: var(--sage-dark);
+      line-height: 1.6;
+      margin: 0 auto 20px;
+      max-width: 580px;
+    }
+
+    .date-badge {
+      display: inline-block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: var(--sage-dark);
+      border-top: 1px solid var(--gold);
+      border-bottom: 1px solid var(--gold);
+      padding: 8px 20px;
+      margin: 14px 0 24px;
+    }
+
+    /* Countdown */
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      max-width: 420px;
+      margin: 20px auto 28px;
+    }
+
+    .count-box {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-soft);
+      border-radius: 12px;
+      padding: 12px 6px;
+    }
+
+    .count-num {
+      display: block;
+      font-size: clamp(1.4rem, 5vw, 1.9rem);
+      font-weight: 600;
+      color: var(--sage-dark);
+    }
+
+    .count-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+    }
+
+    /* Bottoni */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background-color: var(--sage);
+      color: #ffffff;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(122, 135, 90, 0.28);
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .btn-primary:hover, .btn-primary:active {
+      background-color: var(--sage-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--sage-dark);
+      border: 1.5px solid var(--sage);
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-outline:hover {
+      background: var(--sage);
+      color: #ffffff;
+    }
+
+    /* Dettagli Cerimonia */
+    .location-place {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--sage-dark);
+      margin: 6px 0 22px;
+    }
+
+    .map-frame {
+      width: 100%;
+      height: 240px;
+      border: 1px solid var(--border-soft);
+      border-radius: 14px;
+      margin-top: 22px;
+    }
+
+    /* Modulo RSVP */
+    .rsvp-form {
+      text-align: left;
+      max-width: 520px;
+      margin: 24px auto 0;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--sage-dark);
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid rgba(122, 135, 90, 0.38);
+      border-radius: 10px;
+      background: #ffffff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--sage);
+      box-shadow: 0 0 0 3px rgba(122, 135, 90, 0.14);
+    }
+
+    .radio-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #ffffff;
+      border: 1px solid rgba(122, 135, 90, 0.3);
+      padding: 12px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .radio-option input[type="radio"],
+    .radio-option input[type="checkbox"] {
+      accent-color: var(--sage);
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      flex-shrink: 0;
+    }
+
+    .radio-option:has(input:checked) {
+      border-color: var(--sage);
+      background-color: var(--sage-light);
+      font-weight: 500;
+    }
+
+    /* STILE MODALE / POP-UP DI CONFERMA */
+    #successModal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    #successModal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border: 1px solid var(--border-soft);
+      border-radius: 20px;
+      padding: 32px 24px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    #successModal.active .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.8rem;
+      margin: 0 auto 16px;
+    }
+
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--sage-dark);
+      margin: 0 0 10px;
+    }
+
+    .modal-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0 0 24px;
+    }
+
+    /* Box IBAN */
+    .iban-card {
+      background: var(--bg-cream);
+      border: 1px dashed var(--gold);
+      border-radius: 14px;
+      padding: 20px 16px;
+      margin: 24px auto 12px;
+      max-width: 480px;
+    }
+
+    .iban-holder {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .iban-code {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(0.88rem, 3.4vw, 1.08rem);
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      color: var(--text-dark);
+      word-break: break-all;
+      margin-bottom: 14px;
+    }
+
+    @media (min-width: 700px) {
+      .nav-inner {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      .radio-grid.two-col {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. SFONDO FLOREALE FISSO SU TUTTE LE PAGINE -->
+  <img src="fiori-angolo-alto.png" alt="" aria-hidden="true" class="floral-top-left" />
+  <img src="fiori-angolo-basso.png" alt="" aria-hidden="true" class="floral-bottom-right" />
+
+  <!-- 2. ANIMAZIONE VIDEO INIZIALE FULL-SCREEN -->
+  <div id="intro-overlay">
+    <button type="button" class="skip-btn" onclick="closeIntro()">Salta ✕</button>
+    <video id="envelope-video" poster="busta-poster.jpg" playsinline muted preload="metadata">
+      <source src="busta.mp4" type="video/mp4" />
+    </video>
+    <div class="intro-cta-wrap" id="intro-cta">
+      <button type="button" class="open-invite-btn" onclick="playEnvelopeVideo()">
+        Tocca per aprire l'invito
+      </button>
+    </div>
+  </div>
+
+  <!-- POP-UP MODALE DI SUCCESSO -->
+  <div id="successModal">
+    <div class="modal-card">
+      <div class="modal-icon">✓</div>
+      <h3 class="modal-title">Conferma Ricevuta!</h3>
+      <p class="modal-text">Grazie mille per aver risposto. La tua presenza è per noi motivo di grande gioia.</p>
+      <button type="button" class="btn-primary" style="width: 100%;" onclick="closeModalAndRedirect()">
+        Procedi
+      </button>
+    </div>
+  </div>
+
+  <!-- 3. MENU DI NAVIGAZIONE -->
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a href="#home" class="brand-logo" onclick="showPage('home', event)">F&amp;M</a>
+      <nav class="nav-links" aria-label="Menu principale">
+        <a href="#home" class="active" data-page="home" onclick="showPage('home', event)">Save the date</a>
+        <a href="#cerimonia" data-page="cerimonia" onclick="showPage('cerimonia', event)">Cerimonia &amp; Ricevimento</a>
+        <a href="#rsvp" data-page="rsvp" onclick="showPage('rsvp', event)">Ci sarai?</a>
+        <a href="#regalo" data-page="regalo" onclick="showPage('regalo', event)">Un pensiero per gli sposi</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 4. CONTENUTO DELLE 4 PAGINE -->
+  <main>
+
+    <!-- PAGINA 1: SAVE THE DATE -->
+    <section id="page-home" class="page-section active">
+      <div class="card-panel">
+        <p class="subtitle-text" style="margin-bottom: 8px;">
+          Annunciamo con gioia il nostro matrimonio
+        </p>
+        <h1 class="script-title">Federica &amp; Mauro</h1>
+        <div class="date-badge">03 SETTEMBRE 2027</div>
+        <p class="subtitle-text">
+          Non vediamo l'ora di condividere con voi questo giorno speciale nella splendida cornice della Puglia.
+        </p>
+
+        <div class="countdown-grid" id="countdown">
+          <div class="count-box"><span class="count-num" id="cd-days">--</span><span class="count-label">Giorni</span></div>
+          <div class="count-box"><span class="count-num" id="cd-hours">--</span><span class="count-label">Ore</span></div>
+          <div class="count-box"><span class="count-num" id="cd-mins">--</span><span class="count-label">Minuti</span></div>
+          <div class="count-box"><span class="count-num" id="cd-secs">--</span><span class="count-label">Secondi</span></div>
+        </div>
+
+        <button type="button" class="btn-primary" onclick="showPage('cerimonia')">
+          Scopri Cerimonia &amp; Ricevimento
+        </button>
+      </div>
+    </section>
+
+    <!-- PAGINA 2: CERIMONIA & RICEVIMENTO -->
+    <section id="page-cerimonia" class="page-section">
+      <div class="card-panel">
+        <p class="subtitle-text" style="margin-bottom: 6px;">
+          Ti aspettiamo alle ore <strong>16:30</strong> per celebrare e festeggiare insieme a
+        </p>
+        <h2 class="script-title" style="margin-bottom: 4px;">Cala dei Balcani</h2>
+        <p class="location-place">Santa Cesarea Terme (LE)</p>
+
+        <p style="font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; color: var(--sage); margin: 18px 0 12px;">
+          DOV'È?
+        </p>
+
+        <a href="https://www.google.com/maps/search/?api=1&query=Cala+dei+Balcani+Santa+Cesarea+Terme" target="_blank" rel="noopener" class="btn-primary">
+          Clicca qui per aprire Google Maps
+        </a>
+
+        <iframe
+          class="map-frame"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Cala+dei+Balcani+Santa+Cesarea+Terme&output=embed"
+          title="Mappa Cala dei Balcani">
+        </iframe>
+
+        <div style="margin-top: 26px;">
+          <button type="button" class="btn-outline" onclick="showPage('rsvp')">
+            Conferma la tua presenza →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGINA 3: CI SARAI? -->
+    <section id="page-rsvp" class="page-section">
+      <div class="card-panel">
+        <h2 class="script-title">Ci sarai?</h2>
+        <p class="subtitle-text">
+          Ti chiediamo una gentile conferma tramite il modulo qui sotto
+        </p>
+
+        <form id="weddingRsvpForm" class="rsvp-form">
+          <div class="form-group">
+            <label class="form-label" for="nome">Nome e Cognome *</label>
+            <input type="text" id="nome" name="nome" class="form-control" placeholder="Es. Mario Rossi" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Parteciperai al matrimonio? *</label>
+            <div class="radio-grid">
+              <label class="radio-option">
+                <input type="radio" name="partecipazione" value="Certo!!!" required />
+                <span>Certo!!!</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="partecipazione" value="Purtroppo non potrò esserci" />
+                <span>Purtroppo non potrò esserci</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="num_adulti">Numero totale adulti (te compreso/a) *</label>
+            <input type="number" id="num_adulti" name="num_adulti" class="form-control" min="0" max="20" value="1" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="num_bambini">Numero totale bambini *</label>
+            <input type="number" id="num_bambini" name="num_bambini" class="form-control" min="0" max="10" value="0" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="descrizione_bambini">Nomi ed età dei bambini (se presenti)</label>
+            <input type="text" id="descrizione_bambini" name="descrizione_bambini" class="form-control" placeholder="Es. Luca 3 anni, Sara 6 anni" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="altri_ospiti">Nomi degli altri partecipanti adulti del tuo gruppo</label>
+            <input type="text" id="altri_ospiti" name="altri_ospiti" class="form-control" placeholder="Es. Giulia Bianchi, Marco Rossi" />
+          </div>
+
+          <!-- NUOVA DOMANDA ALLOGGIO -->
+          <div class="form-group">
+            <label class="form-label">Ti fermi a dormire in zona la notte dopo il matrimonio? Avremmo il piacere di ospitarti*</label>
+            <div class="radio-grid">
+              <label class="radio-option">
+                <input type="radio" name="alloggio" value="Sì, serve supporto alloggio" required />
+                <span>Sì, vorrei fermarmi a dormire nelle vicinanze</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="alloggio" value="No, in autonomia" />
+                <span>No, mi organizzo in autonomia</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Intolleranze alimentari ed altro *</label>
+            <div class="radio-grid two-col">
+              <label class="radio-option">
+                <input type="checkbox" name="intolleranze" value="Nessuna" checked />
+                <span>Nessuna</span>
+              </label>
+              <label class="radio-option">
+                <input type="checkbox" name="intolleranze" value="Lattosio" />
+                <span>Lattosio</span>
+              </label>
+              <label class="radio-option">
+                <input type="checkbox" name="intolleranze" value="Glutine" />
+                <span>Glutine</span>
+              </label>
+              <label class="radio-option">
+                <input type="checkbox" name="intolleranze" value="Vegetariano / Vegano" />
+                <span>Vegetariano / Vegano</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="note">Altre segnalazioni o allergie specifiche</label>
+            <textarea id="note" name="note" rows="3" class="form-control" placeholder="Scrivi qui eventuali dettagli (es. seggiolone per bambini, allergie gravi, ecc.)"></textarea>
+          </div>
+
+          <div style="text-align: center; margin-top: 24px;">
+            <button type="submit" id="submitBtn" class="btn-primary" style="width: 100%; max-width: 320px;">
+              Invia Conferma
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- PAGINA 4: UN PENSIERO PER GLI SPOSI -->
+    <section id="page-regalo" class="page-section">
+      <div class="card-panel">
+        <h2 class="script-title">Un pensiero per gli sposi</h2>
+        <p class="subtitle-text">
+          Se le vecchie e care «buste» ti sanno di antico o hai paura di perderle il giorno del matrimonio, la tecnologia ci viene in soccorso. Queste sono le coordinate per donazioni spontanee, finanziamenti a fondo perduto e tentativi di corruzione:
+        </p>
+
+        <div class="iban-card">
+          <div class="iban-holder">Intestatari: Federica &amp; Mauro</div>
+          <div class="iban-code" id="ibanText">IT77N0303211200010001095156</div>
+          <button type="button" class="btn-primary" onclick="copyIban()">
+            Copia IBAN
+          </button>
+          <p id="copyFeedback" style="font-family: 'Montserrat', sans-serif; font-size: 0.78rem; color: var(--sage-dark); margin: 10px 0 0; display: none;">
+            ✓ IBAN copiato negli appunti!
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    /* ==========================================================
+       1. GESTIONE VIDEO INIZIALE DELLA BUSTA
+       ========================================================== */
+    const overlay = document.getElementById('intro-overlay');
+    const video = document.getElementById('envelope-video');
+    const cta = document.getElementById('intro-cta');
+
+    function playEnvelopeVideo() {
+      cta.classList.add('fade-out');
+      video.play().catch(() => {
+        closeIntro();
+      });
+    }
+
+    video.addEventListener('ended', () => {
+      closeIntro();
+    });
+
+    function closeIntro() {
+      overlay.classList.add('hidden');
+      setTimeout(() => {
+        video.pause();
+      }, 900);
+    }
+
+    /* ==========================================================
+       2. NAVIGAZIONE TRA LE SEZIONI DEL SITO
+       ========================================================== */
+    function showPage(pageId, event) {
+      if (event) event.preventDefault();
+
+      document.querySelectorAll('.page-section').forEach(sec => {
+        sec.classList.remove('active');
+      });
+      const target = document.getElementById('page-' + pageId);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.classList.toggle('active', link.dataset.page === pageId);
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ==========================================================
+       3. CONTO ALLA ROVESCIA AL 03 SETTEMBRE 2027 ORE 16:30
+       ========================================================== */
+    const weddingDate = new Date('2027-09-03T16:30:00').getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const diff = weddingDate - now;
+
+      if (diff <= 0) {
+        document.getElementById('cd-days').textContent = '0';
+        document.getElementById('cd-hours').textContent = '0';
+        document.getElementById('cd-mins').textContent = '0';
+        document.getElementById('cd-secs').textContent = '0';
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('cd-days').textContent = days;
+      document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('cd-mins').textContent = String(mins).padStart(2, '0');
+      document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    /* ==========================================================
+       4. INVIO MODULO E GESTIONE POP-UP DI CONFERMA
+       ========================================================== */
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxKwzY40J6hJXcGaODEQnGkaCMZajTdCw1XMZnQkWTKi5qMjQApHUmlqBByAt_3UmTt/exec";
+
+    const form = document.getElementById('weddingRsvpForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const successModal = document.getElementById('successModal');
+
+    // Gestione intelligente checkbox "Nessuna"
+    const checkboxes = document.querySelectorAll('input[name="intolleranze"]');
+    checkboxes.forEach(cb => {
+      cb.addEventListener('change', () => {
+        if (cb.value === 'Nessuna' && cb.checked) {
+          checkboxes.forEach(other => { if (other.value !== 'Nessuna') other.checked = false; });
+        } else if (cb.value !== 'Nessuna' && cb.checked) {
+          checkboxes.forEach(other => { if (other.value === 'Nessuna') other.checked = false; });
+        }
+      });
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Invio in corso...';
+
+      const formData = new FormData(form);
+      const selectedIntol = Array.from(document.querySelectorAll('input[name="intolleranze"]:checked'))
+        .map(el => el.value)
+        .join(', ');
+
+      const payload = {
+        data_invio: new Date().toLocaleString('it-IT'),
+        nome: formData.get('nome'),
+        partecipazione: formData.get('partecipazione'),
+        num_adulti: formData.get('num_adulti'),
+        num_bambini: formData.get('num_bambini') || '0',
+        descrizione_bambini: formData.get('descrizione_bambini') || '-',
+        altri_ospiti: formData.get('altri_ospiti') || '-',
+        alloggio: formData.get('alloggio'),
+        intolleranze: selectedIntol || 'Nessuna',
+        note: formData.get('note') || '-'
+      };
+
+      // Invio dei dati a Google Sheets in background
+      if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== "INSERISCI_QUI_URL_GOOGLE_APPS_SCRIPT") {
+        fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(() => {});
+      }
+
+      // Mostra il pop-up di successo
+      successModal.classList.add('active');
+
+      // Ripristina il form
+      form.reset();
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Invia Conferma';
+    });
+
+    function closeModalAndRedirect() {
+      successModal.classList.remove('active');
+      showPage('regalo');
+    }
+
+    /* ==========================================================
+       5. COPIA IBAN CON UN TOCCO
+       ========================================================== */
+    function copyIban() {
+      const iban = document.getElementById('ibanText').textContent.replace(/\s+/g, '');
+      navigator.clipboard.writeText(iban).then(() => {
+        const fb = document.getElementById('copyFeedback');
+        fb.style.display = 'block';
+        setTimeout(() => { fb.style.display = 'none'; }, 3500);
+      });
+    }
+  </script>
+</body>
+</html>
